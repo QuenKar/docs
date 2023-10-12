@@ -15,15 +15,15 @@ GreptimeDB supports the following data types:
 |`varbinary`|Variable length binary values| `Binary`| The length of the data + 2 bytes|
 |`date`|32-bit date values represent the days since UNIX Epoch |`Date`| 4 Bytes |
 |`datetime`|64-bit datetime values represent the milliseconds since UNIX Epoch|`DateTime`| 8 Bytes |
-|`timestamp[(0/3/6/9)]`|64-bit timestamp values with optional precision. <br /> For example, `timestamp(0)` represents timestamp type with seconds precision, `timestamp(3)` represents  milliseconds precision, `timestamp(6)` for microseonds and `timestamp(9)` for nanoseconds. If no precision is given, the timestamp is in **milliseconds** precision by default.|`TimestampSecond`<br />/`TimestampMillisecond`<br />/`TimestampMicroSecond`<br />/`TimestampNanosecond`| 8 Bytes |
+|`timestamp[(0/3/6/9)]`|64-bit timestamp values with optional precision. <br /> For example, `timestamp(0)` represents timestamp type with seconds precision, `timestamp(3)` represents  milliseconds precision, `timestamp(6)` for microseonds and `timestamp(9)` for nanoseconds. If no precision is given, the timestamp is in **milliseconds** precision by default.|`TimestampSecond`<br />/`TimestampMillisecond`<br />/`TimestampMicroSecond`<br />/`TimestampNanosecond` | 8 Bytes |
 
 ## Unsigned version of integer types
 `int` / `tinyint` / `smallint` / `bigint` also have unsigned version, and there corresponding value ranges are:
 
-- `int unsigned/UInt8`: 0 ~ 4294967295
-- `tinyint unsigned/UInt16`: 0 ~ 255
-- `smallint unsigned/UInt32`: 0 ~ 65535
-- `bigint unsigned/UInt64`: 0 ~ 18446744073709551615
+- `int unsigned / UInt8` : 0 ~ 4294967295
+- `tinyint unsigned / UInt16` : 0 ~ 255
+- `smallint unsigned / UInt32` : 0 ~ 65535
+- `bigint unsigned / UInt64` : 0 ~ 18446744073709551615
 
 
 
@@ -33,10 +33,23 @@ The max capacities of variable-sized type, such as `string` and `varbinary` are 
 
 For example, `string` values are encoded into UTF-8. If all characters are 3-bytes lengthed, this field can store 715827882 characters. As for `varbinary` types, it can store 2147483647 bytes at most.
 
+
+## Timestamp type alias
+
+The `timestamp` type comes with various aliases, and it is suggested to use `TimestampSecond`, `TimestampMillisecond`, `TimestampMicrosecond`, and `TimestampNanosecond`. 
+
+The following table lists the corresponding alias.
+
+|Type name|Alias|
+|:-|:-:|
+|TimestampSecond| Timestamp_s, Timestamp_sec , Timestamp(0)|
+|TimestampMillisecond| Timestamp_ms , Timestamp(3)|
+|TimestampMicrosecond| Timestamp_us , Timestamp(6)|
+|TimestampNanosecond|Timestamp_ns , Timestamp(9)|
+
 ## Examples
 
-
-use case:
+### Create Table
 
 ```sql
 CREATE TABLE data_types (
@@ -61,6 +74,8 @@ CREATE TABLE data_types (
   ts9 TimestampNanosecond DEFAULT CURRENT_TIMESTAMP TIME INDEX,
   PRIMARY KEY(s));
 ```
+
+### Describe Table
 
 ```sh
 > describe table data_types;
